@@ -38,18 +38,15 @@ public partial class N5Context : DbContext
             entity.Property(e => e.FechaPermiso).HasColumnType("date");
             entity.Property(e => e.NombreEmpleado).HasColumnType("text");
 
-            entity.HasOne(d => d.TipoPermisoNavigation).WithMany(p => p.Permisos)
-                .HasForeignKey(d => d.TipoPermiso)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TipoPermisos");
         });
 
-        modelBuilder.Entity<TipoPermiso>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__TipoPerm__3214EC07753FC758");
 
-            entity.Property(e => e.Descripcion).HasColumnType("text");
-        });
+        // Configuración de las relaciones entre tablas
+        modelBuilder.Entity<Permiso>()
+            .HasOne(p => p.TipoPermisoNavigation)
+            .WithMany()
+            .HasForeignKey(p => p.TipoPermiso)
+            .OnDelete(DeleteBehavior.Restrict); // Agrega esta línea
 
         OnModelCreatingPartial(modelBuilder);
     }

@@ -15,43 +15,57 @@ namespace N5.Api.Repository
 
         public async Task<List<Permiso>> GetAll()
         {
-            return await _context.Permisos
-                .Include(p => p.TipoPermisoNavigation)
-                .ToListAsync();
+            return await _context.Permisos.Include(p => p.TipoPermisoNavigation).ToListAsync();
         }
 
         public async Task<Permiso> GetById(int id)
         {
-            return await _context.Permisos
-                .Include(p => p.TipoPermisoNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var existingPermiso = await _context.Permisos.FindAsync(id);
+
+            if (existingPermiso == null)
+            {
+                throw new ArgumentException("Permiso not found");
+            }
+
+            return await _context.Permisos.Include(p => p.TipoPermisoNavigation).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task Add(Permiso permiso)
+        public async Task Create(Permiso entity)
         {
+            var exists = await _context.TipoPermisos.AnyAsync(p => p.Id == entity.TipoPermiso);
+            if (!exists)
+            {
+                throw new ArgumentException("Tipo de Permiso not found");
+            }
+
+            Permiso permiso = new Permiso
+            {
+                Id = entity.Id,
+                NombreEmpleado = entity.NombreEmpleado,
+                ApellidoEmpleado = entity.ApellidoEmpleado,
+                TipoPermiso = entity.TipoPermiso,
+                FechaPermiso = entity.FechaPermiso
+            };
+
             _context.Permisos.Add(permiso);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Permiso permiso)
+        public async Task Update(int id, Permiso entity)
         {
-            _context.Update(permiso);
-            await _context.SaveChangesAsync();
-        }
+            var existingPermiso = await _context.Permisos.FindAsync(id);
 
-        public async Task Delete(int id)
-        {
-            var permiso = await _context.Permisos.FindAsync(id);
-            if (permiso != null)
+            if (existingPermiso == null)
             {
-                _context.Permisos.Remove(permiso);
-                await _context.SaveChangesAsync();
+                throw new ArgumentException("Permiso not found");
             }
-        }
 
-        public bool Exists(int id)
-        {
-            return _context.Permisos.Any(e => e.Id == id);
+            existingPermiso.NombreEmpleado = entity.NombreEmpleado;
+            existingPermiso.ApellidoEmpleado = entity.ApellidoEmpleado;
+            existingPermiso.TipoPermiso = entity.TipoPermiso;
+            existingPermiso.FechaPermiso = entity.FechaPermiso;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

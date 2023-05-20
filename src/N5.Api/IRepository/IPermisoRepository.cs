@@ -7,9 +7,7 @@ namespace N5.Api.IRepository
     {
         Task<List<Permiso>> GetAll();
         Task<Permiso> GetById(int id);
-        Task Add(Permiso permiso);
-        Task Update(Permiso permiso);
-        Task Delete(int id);
-        bool Exists(int id);
+        Task Create(Permiso entity);
+        Task Update(int id, Permiso entity);
     }
 }

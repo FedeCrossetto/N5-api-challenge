@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using N5.Api.IRepository;
 using N5.Api.Models;
+using N5.Api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +13,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<N5Context>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("N5Database")));
 
+builder.Services.AddScoped<IPermisoRepository, PermisoRepository>();
+
 var app = builder.Build();
 app.UseSwaggerUI();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
