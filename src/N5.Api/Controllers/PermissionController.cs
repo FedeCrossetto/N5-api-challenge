@@ -5,34 +5,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using N5.Api.DataAccess;
+using N5.Api.DataAccess.IBusiness;
 using N5.Api.IRepository;
 using N5.Api.Models;
 
 namespace N5.Api.Controllers
 {
-    public class PermisosController : Controller
+    public class PermissionController : ControllerBase
     {
-        private readonly IPermisoRepository _repository;
-        public PermisosController(N5Context context, IPermisoRepository permisoRepository)
+        private readonly IPermissionBusinessLogic _permissionBusinessLogic;
+        public PermissionController(IPermissionBusinessLogic permissionBusinessLogic)
         {
-            _repository = permisoRepository;
+            _permissionBusinessLogic = permissionBusinessLogic;
         }
 
-
         [HttpGet("api/[controller]")]
-        public async Task<ActionResult<List<Permiso>>> GetAllPermisos()
+        public async Task<ActionResult<List<Permiso>>> GetAllPermissions()
         {
-            var permisos = await _repository.GetAll();
+            var permisos = await _permissionBusinessLogic.GetAllPermissions();
             return Ok(permisos);
         }
 
-
         [HttpGet("api/[controller]/{id}")]
-        public async Task<ActionResult<Permiso>> GetPermisoById(int id)
+        public async Task<ActionResult<Permiso>> GetPermissionById(int id)
         {
             try
             {
-                var permiso = await _repository.GetById(id);
+                var permiso = await _permissionBusinessLogic.GetPermissionById(id);
                 return Ok(permiso);
             }
             catch (Exception ex)
@@ -41,9 +41,8 @@ namespace N5.Api.Controllers
             }
         }
 
-        // POST: api/permiso
         [HttpPost("permisos")]
-        public async Task<IActionResult> CreatePermiso([FromBody] Permiso permisoData)
+        public async Task<IActionResult> CreatePermission([FromBody] Permiso permisoData)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +50,7 @@ namespace N5.Api.Controllers
             }
             try
             {
-                await _repository.Create(permisoData);
+                await _permissionBusinessLogic.CreatePermission(permisoData);
                 return Ok(new ApiResponse<object> { Success = true });
             }
             catch (ArgumentException ex)
@@ -60,18 +59,17 @@ namespace N5.Api.Controllers
             }
         }
 
-        // PUT: api/permiso/{id}
         [HttpPut("api/[controller]/{id}")]
-        public async Task<IActionResult> UpdatePermiso([FromRoute] int id, [FromBody] Permiso permiso)
+        public async Task<IActionResult> UpdatePermission([FromRoute] int id, [FromBody] Permiso permiso)
         {
             try
             {
-                await _repository.Update(id, permiso);
-                return Ok();
+                await _permissionBusinessLogic.UpdatePermission(id, permiso);
+                return Ok(new ApiResponse<string> { Success = true });
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<string> { Success = false, ErrorMessage = ex.Message });
             }
         }
 

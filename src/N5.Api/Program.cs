@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using N5.Api.Business;
+using N5.Api.DataAccess.IBusiness;
 using N5.Api.IRepository;
-using N5.Api.Models;
+using N5.Api.Context;
 using N5.Api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,10 +15,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<N5Context>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("N5Database")));
 
-builder.Services.AddScoped<IPermisoRepository, PermisoRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
+
+builder.Services.AddScoped<IPermissionBusinessLogic, PermissionBusinessLogic>();
+builder.Services.AddScoped<IPermissionTypeBusinessLogic, PermissionTypeBusinessLogic>();
 
 var app = builder.Build();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "N5 Challenge v1");
+    c.RoutePrefix = string.Empty;
+});
 
 
 // Configure the HTTP request pipeline.

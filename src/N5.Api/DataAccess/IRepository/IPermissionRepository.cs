@@ -1,9 +1,8 @@
-﻿
-using N5.Api.Models;
+﻿using N5.Api.Models;
 
 namespace N5.Api.IRepository
 {
-    public interface IPermisoRepository
+    public interface IPermissionRepository
     {
         Task<List<Permiso>> GetAll();
         Task<Permiso> GetById(int id);

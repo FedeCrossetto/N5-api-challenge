@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using N5.Api.Models;
 
-namespace N5.Api.Models;
+namespace N5.Api.Context;
 
 public partial class N5Context : DbContext
 {
