@@ -41,7 +41,7 @@ namespace N5.Api.Controllers
             }
         }
 
-        [HttpPost("permisos")]
+        [HttpPost("api/[controller]")]
         public async Task<IActionResult> CreatePermission([FromBody] Permiso permisoData)
         {
             if (!ModelState.IsValid)
@@ -72,6 +72,7 @@ namespace N5.Api.Controllers
                 return NotFound(new ApiResponse<string> { Success = false, ErrorMessage = ex.Message });
             }
         }
+
 
     }
 }

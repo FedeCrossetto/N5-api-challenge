@@ -34,7 +34,7 @@ namespace N5.Api.Controllers
             }
         }
 
-        [HttpPost("permissionTypes")]
+        [HttpPost("api/[controller]")]
         public async Task<IActionResult> CreatePermissionType([FromBody] TipoPermiso permissionType)
         {
             if (!ModelState.IsValid)

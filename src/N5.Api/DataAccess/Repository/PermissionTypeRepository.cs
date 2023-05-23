@@ -33,13 +33,6 @@ namespace N5.Api.Repository
 
         public async Task Create(TipoPermiso entity)
         {
-            var hasPermission = await _context.TipoPermisos.FindAsync(entity.Id);
-
-            if (hasPermission == null)
-            {
-                throw new ArgumentException("Permission Type not found");
-            }
-
             TipoPermiso permissionType = new TipoPermiso
             {
                 Id = entity.Id,

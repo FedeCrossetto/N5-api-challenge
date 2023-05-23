@@ -10,5 +10,5 @@ public partial class Permiso
     public string ApellidoEmpleado { get; set; }
     public int TipoPermiso { get; set; }
     public DateTime FechaPermiso { get; set; }
-    public virtual TipoPermiso TipoPermisoNavigation { get; set; }
+    public virtual TipoPermiso? TipoPermisoNavigation { get; set; }
 }
