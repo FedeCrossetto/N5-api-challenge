@@ -8,7 +8,7 @@ namespace N5.Api.Controllers
     public class PermissionTypeController : ControllerBase
     {
         private readonly IPermissionTypeBusinessLogic _permissionTypeBusinessLogic;
-        public PermissionTypeController(IPermissionTypeRepository tipoPermisoRepository, IPermissionTypeBusinessLogic permissionTypeBusinessLogic)
+        public PermissionTypeController(IPermissionTypeBusinessLogic permissionTypeBusinessLogic)
         {
             _permissionTypeBusinessLogic = permissionTypeBusinessLogic;
         }
