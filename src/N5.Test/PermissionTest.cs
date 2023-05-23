@@ -26,8 +26,6 @@ namespace N5.Test
         List<Permiso> permissions = new List<Permiso> { new Permiso { Id = 1, NombreEmpleado = "Federico", ApellidoEmpleado = "Crossetto", TipoPermiso = 1, FechaPermiso = DateTime.Now },
                                                          new Permiso { Id = 1, NombreEmpleado = "Mathias", ApellidoEmpleado = "Vazquez", TipoPermiso = 2, FechaPermiso = DateTime.Now }  };
         Permiso permission = new Permiso { Id = 1, NombreEmpleado = "Federico", ApellidoEmpleado = "Crossetto", TipoPermiso = 1, FechaPermiso = DateTime.Now };
-        Permiso permission2 = new Permiso {  TipoPermiso = 1, FechaPermiso = DateTime.Now };
-
 
 
         #region Controllers
